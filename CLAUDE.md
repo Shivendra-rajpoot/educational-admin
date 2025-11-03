@@ -79,9 +79,12 @@ The `getPageContext(filename)` function provides dynamic context to each page:
 
 - `eq` - Equality comparison for conditional rendering (e.g., `{{#if (eq page 'index')}}`)
 - `isActive` - Check if current page matches target
+- `exists` - Check if value exists and is not empty
 - `formatDate` - Date formatting (short/long)
 - `truncate` - Text truncation with suffix
 - `conditionalClass` - Dynamic CSS classes
+- `uniqueId` - Generate unique ID with optional prefix
+- `json` - JSON stringify for debugging
 - Math: `add`, `subtract`, `multiply`
 - Array: `length`, `first`, `last`
 - String: `lowercase`, `uppercase`, `startsWith`, `endsWith`, `contains`
@@ -121,19 +124,26 @@ Navigation states are automatically set based on filename patterns in `vite.conf
 
 - **Dashboard** (`dashboard.*`): index, index-1, index-2, analytics, widgets
 - **Academic** (`academic.*`):
-  - Professors: professor-profile, all-professors, add-professor
-  - Students: all-students, student-profile, add-student
-  - Courses: all-courses, course-info, add-course
-  - Library: library-assets, add-library-assets
-  - Departments: all-departments, add-department
+  - Professors: professor-profile, all-professors, add-professor, edit-professor
+  - Students: all-students, student-profile, add-student, edit-student
+  - Courses: all-courses, course-info, add-course, edit-course, course-payment
+  - Library: library-assets, add-library-assets, edit-library-assets
+  - Departments: departments, add-department, edit-department
 - **Interface** (`interface.*`):
   - Components: buttons, alerts, modals, tabs, accordion
-  - Forms: basic-form-element, advance-form-element, password-meter
-  - Charts: bar-charts, line-charts, area-charts, c3, peity, sparkline
+  - Forms: basic-form-element, advance-form-element, password-meter, multi-upload, images-cropper
+  - Charts: bar-charts, line-charts, area-charts, c3, peity, sparkline, rounded-chart
   - Tables: static-table, data-table
-- **Communication**: mailbox-compose, mailbox-inbox
-- **Authentication**: login, register, lock, password-recovery
-- **Error Pages**: 404, 500
+- **Communication**: mailbox, mailbox-compose, mailbox-view
+- **Developer Tools** (`tools.*`):
+  - UI: preloader, notifications, tree-view
+  - Viewers: pdf-viewer
+  - Maps: google-map, data-maps
+  - Other: code-editor
+- **Pages**:
+  - Authentication: login, register, lock, password-recovery
+  - Error Pages: 404, 500
+- **Other**: events
 
 ## Important Libraries & Their Usage
 
@@ -223,3 +233,135 @@ Pages with Chart.js need these in their `vite.config.js` page config:
 additionalCSS: ['src/css/charts-layout.css'],
 additionalJS: ['node_modules/chart.js/dist/chart.umd.js', 'src/js/charts-responsive.js']
 ```
+
+### Animated Counters
+
+The `charts-responsive.js` includes a counter animation function:
+
+```javascript
+// Automatically animates elements with .counter class
+<span class="counter">1234</span>  // Will animate from 0 to 1234
+```
+
+## SCSS Architecture
+
+Sass files are organized in `src/scss/`:
+
+```
+src/scss/
+├── main.scss               # Entry point (imports all other files)
+├── variables.scss          # Global Sass variables
+├── base/
+│   └── _variables.scss     # Base variables
+├── components/
+│   ├── _sidebar.scss       # Sidebar-specific styles
+│   ├── _header.scss        # Header-specific styles
+│   ├── _buttons.scss       # Button customizations
+│   ├── charts.scss         # Chart styling
+│   ├── dashboard.scss      # Dashboard-specific styles
+│   ├── tables.scss         # Table styling
+│   └── utilities.scss      # Utility classes
+├── bootstrap-overrides/
+│   ├── cards.scss          # Bootstrap card overrides
+│   ├── buttons.scss        # Bootstrap button overrides
+│   ├── navbar.scss         # Bootstrap navbar overrides
+│   └── forms.scss          # Bootstrap form overrides
+└── utilities/
+    └── _responsive.scss    # Responsive utility classes
+```
+
+**Important**: All SCSS is processed by Vite with PostCSS (autoprefixer + cssnano in production).
+
+## Production Deployment
+
+**Recommended Approach**: Full source deployment (not static build)
+
+### Why Full Source Deployment?
+- All 65 HTML pages work immediately (only 11 pages configured in Vite build)
+- Handlebars templating works correctly
+- Easier to update individual files
+- No build configuration needed
+
+### Required Files for Deployment
+
+```
+node_modules/        # REQUIRED - all assets load from here
+src/                 # All source files
+images/              # Image assets
+img/                 # Additional images
+*.html              # All 65 HTML pages
+package.json        # Dependencies manifest
+package-lock.json   # Locked versions
+```
+
+### Server Configuration
+
+**Apache** - Ensure node_modules is accessible:
+```apache
+<Directory "/var/www/html/node_modules">
+    Options +FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+```
+
+**Nginx** - Serve node_modules:
+```nginx
+location /node_modules {
+    alias /var/www/html/node_modules;
+}
+```
+
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for complete deployment instructions.
+
+## Build System Details
+
+### Vite Configuration Highlights
+
+- **Port**: 3000 (auto-opens browser on `npm run dev`)
+- **Hot Module Replacement**: Automatic for CSS, JS, and HTML changes
+- **Handlebars Compilation**: Automatic via `vite-plugin-handlebars`
+- **Terser Minification**: Production builds strip console.log and debugger
+- **CSS Processing**: SCSS → PostCSS → Autoprefixer → cssnano (production)
+- **Build Exclusions**: Files with `-new` or `template` in name are excluded from build
+
+### Adding Pages to Build
+
+If you need to add a page to the static build (in `vite.config.js`):
+
+1. Add to `build.rollupOptions.input` object (line 367-374)
+2. Ensure page context is configured in `getPageContext()` function
+3. Run `npm run build` to verify
+
+**Note**: Currently only 11 pages are configured for build. For production, use full source deployment instead.
+
+## Utility Scripts
+
+The project includes several shell scripts for maintenance and deployment:
+
+- **deploy.sh** - Production deployment script for transferring files to server
+- **update_navigation.sh** - Batch updates navigation structure across all HTML files
+- **check-migration.sh** - Validates Bootstrap 5 migration status across all pages
+
+These scripts are primarily for maintenance and bulk operations. Normal development should use npm commands.
+
+## Critical Implementation Details
+
+### Sidebar State Persistence
+
+The sidebar collapse state persists across sessions using localStorage (desktop only):
+
+- **Desktop (>768px)**: Sidebar toggles between collapsed and expanded, state saved to localStorage
+- **Mobile (≤768px)**: Sidebar opens as overlay with backdrop, no state persistence
+- **localStorage key**: `sidebarCollapsed` (boolean as string)
+
+On page load, if `sidebarCollapsed === 'true'` and viewport is desktop, sidebar automatically collapses.
+
+### Navigation Active States
+
+Navigation active states are managed in two ways:
+
+1. **Server-side**: `vite.config.js` `getPageContext()` sets navigation object based on filename patterns
+2. **Client-side**: `dashboard.js` compares `window.location.pathname` with link hrefs for runtime highlighting
+
+Both approaches ensure consistent active menu item highlighting across all 65 pages.

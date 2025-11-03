@@ -39,18 +39,23 @@ body {
 }
 
 .sidebar.collapsed {
-    width: 70px;
+    width: 70px !important;
 }
 
 /* Hide text and submenus when collapsed */
 .sidebar.collapsed .sidebar-nav .nav-link span,
 .sidebar.collapsed .menu-section-title,
 .sidebar.collapsed .submenu {
-    display: none;
+    display: none !important;
 }
 
 .sidebar.collapsed .sidebar-brand h5 {
-    justify-content: center;
+    justify-content: center !important;
+    font-size: 0 !important; /* Hide text */
+}
+
+.sidebar.collapsed .sidebar-brand h5 i {
+    font-size: 1.5rem !important; /* Restore icon size */
 }
 
 .sidebar.collapsed .sidebar-brand span {
@@ -58,8 +63,17 @@ body {
 }
 
 .sidebar.collapsed .nav-link {
-    justify-content: center;
-    padding: 0.625rem;
+    justify-content: center !important;
+    padding: 0.625rem !important;
+}
+
+.sidebar.collapsed .nav-link i {
+    margin-right: 0 !important;
+}
+
+/* Hide dropdown arrows when collapsed */
+.sidebar.collapsed .nav-link.has-submenu::after {
+    display: none !important;
 }
 
 .sidebar-header {
