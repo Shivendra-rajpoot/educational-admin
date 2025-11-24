@@ -12,10 +12,10 @@ Check out the live demo: [Kiaalap Live Preview](https://colorlib.com/polygon/kia
 
 ### Modern Technology Stack
 - **Bootstrap 5.3.8** - Latest Bootstrap version with 100% jQuery-free architecture
-- **Vite 7.1.7 Build System** - Lightning-fast development server and optimized production builds
+- **Vite 7.2 Build System** - Lightning-fast development server and optimized production builds
 - **Handlebars Templating** - Modular partials for maintainable code structure
 - **Chart.js 4.5** - Beautiful, responsive charts replacing legacy Morris/C3/D3 libraries
-- **Simple-DataTables 10.0** - Vanilla JavaScript data tables with no jQuery dependency
+- **Simple-DataTables 10.2** - Vanilla JavaScript data tables with no jQuery dependency
 - **Bootstrap Icons 1.13.1** - 2,000+ icons loaded locally (no CDN dependencies)
 - **Vanilla JavaScript** - Clean ES6+ code throughout the application
 
@@ -177,18 +177,18 @@ Edit `src/partials/sidebar.hbs` to customize the navigation menu structure.
 
 ### Core Technologies
 - [Bootstrap 5.3.8](https://getbootstrap.com/) - Modern CSS framework
-- [Vite 7.1.7](https://vitejs.dev/) - Next generation build tool
-- [Chart.js 4.5.0](https://www.chartjs.org/) - Flexible JavaScript charting
+- [Vite 7.2](https://vitejs.dev/) - Next generation build tool
+- [Chart.js 4.5](https://www.chartjs.org/) - Flexible JavaScript charting
 - [Handlebars 2.0](https://handlebarsjs.com/) - Semantic templating
 
 ### Key Libraries
-- [Simple-DataTables 10.0](https://github.com/fiduswriter/Simple-DataTables) - Vanilla JS data tables
+- [Simple-DataTables 10.2](https://github.com/fiduswriter/Simple-DataTables) - Vanilla JS data tables
 - [Bootstrap Icons 1.13.1](https://icons.getbootstrap.com/) - 2,000+ icon library
 - [Quill 2.0.3](https://quilljs.com/) - Modern rich text editor
 - [FullCalendar 6.1](https://fullcalendar.io/) - Event calendar
 - [Leaflet 1.9](https://leafletjs.com/) - Interactive maps
 - [Tom Select 2.3](https://tom-select.js.org/) - Modern select library
-- [Cropper.js 2.0](https://fengyuanchen.github.io/cropperjs/) - Image cropping
+- [Cropper.js 1.6](https://fengyuanchen.github.io/cropperjs/) - Image cropping
 - [CountUp.js 2.8](https://inorganik.github.io/countUp.js/) - Number animations
 
 ## 🌐 Browser Support
@@ -200,6 +200,7 @@ Edit `src/partials/sidebar.hbs` to customize the navigation menu structure.
 
 ## 📝 Version History
 
+- **v2.2.0** (2025) - All dependencies updated to latest versions, improved documentation
 - **v2.1.0** (2025) - Mailbox system improvements, legacy asset cleanup, enhanced card styling
 - **v2.0.0** (2025) - Complete modernization: Bootstrap 5, Vite build system, jQuery elimination
 - **v1.0.0** (2018) - Original release with Bootstrap 3/4

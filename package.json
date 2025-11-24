@@ -1,6 +1,6 @@
 {
   "name": "kiaalap",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Modern Bootstrap 5 Education Management Dashboard - Free admin dashboard template",
   "main": "index.js",
   "scripts": {
@@ -53,7 +53,7 @@
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.1",
     "eslint": "^9.35.0",
-    "glob": "^11.0.3",
+    "glob": "^13.0.0",
     "html-validate": "^10.0.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",

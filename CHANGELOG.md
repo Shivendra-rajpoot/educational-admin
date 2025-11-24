@@ -8,6 +8,66 @@ Kiaalap has undergone a complete modernization from a legacy Bootstrap 3/4 templ
 
 ---
 
+## [2.2.0] - 2025-11-24 (Dependency Updates)
+
+### 📦 Package Updates
+
+All dependencies have been updated to their latest versions for improved security, performance, and compatibility.
+
+#### Dependencies Updated
+
+| Package | Previous | Updated |
+|---------|----------|---------|
+| @fortawesome/fontawesome-free | 7.0.1 | 7.1.0 |
+| chart.js | 4.5.0 | 4.5.1 |
+| dayjs | 1.11.18 | 1.11.19 |
+| filepond | 4.32.9 | 4.32.10 |
+| sass | 1.93.2 | 1.94.2 |
+| simple-datatables | 10.0.0 | 10.2.0 |
+| simplebar | 6.3.2 | 6.3.3 |
+| swiper | 12.0.2 | 12.0.3 |
+
+#### Dev Dependencies Updated
+
+| Package | Previous | Updated |
+|---------|----------|---------|
+| autoprefixer | 10.4.21 | 10.4.22 |
+| cssnano | 7.1.1 | 7.1.2 |
+| eslint | 9.36.0 | 9.39.1 |
+| glob | 11.0.3 | **13.0.0** (major) |
+| html-validate | 10.0.0 | 10.4.0 |
+| stylelint | 16.24.0 | 16.26.0 |
+| terser | 5.44.0 | 5.44.1 |
+| vite | 7.1.7 | 7.2.4 |
+
+### 🔧 Technical Notes
+
+- **Glob Major Update**: Updated from v11 to v13 with improved performance and ESM support
+- **CropperJS**: Kept at v1.6.2 for API compatibility (v2.x uses completely different web components API)
+- **Build System**: Verified all builds complete successfully with updated dependencies
+- **Zero Vulnerabilities**: `npm audit` reports no security vulnerabilities
+
+### 📚 Documentation Updates
+
+- **CLAUDE.md**: Streamlined and improved documentation for Claude Code integration
+  - Reduced from ~370 lines to ~140 lines while preserving essential information
+  - Fixed SCSS entry point reference (app.scss, not main.scss)
+  - Updated build information to reflect dynamic HTML page inclusion
+  - Improved organization and readability
+
+### 🐛 Bug Fixes
+
+- None - this is a maintenance release focused on dependency updates
+
+### 🔄 Migration Notes
+
+For users upgrading from v2.1.0:
+1. Run `npm install` to update all dependencies
+2. No breaking changes - all existing code should work as-is
+3. Build and dev server commands remain unchanged
+
+---
+
 ## [2.1.0] - 2025-09-30 (Polish & Optimization)
 
 ### 🎨 UI/UX Improvements
